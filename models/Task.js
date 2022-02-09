@@ -31,7 +31,7 @@ class Task {
     }
 
     static findAll() {
-        const sqlQuery = 'SELECT * FROM todos';
+        const sqlQuery = 'SELECT * FROM todos ORDER BY created_at DESC';
         return db.execute(sqlQuery)
     }
 

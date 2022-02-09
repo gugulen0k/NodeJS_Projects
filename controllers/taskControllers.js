@@ -30,7 +30,11 @@ export const getTaskById = async (req, res, next) => {
         const id = req.params.id
         const [task, _] = await Task.findById(id)
 
-        res.status(200).json({ task: task[0] })
+        if (task[0].length === 0) {
+            res.status(200).json({ message: `There is no task by id '${id}'` })
+        } else {
+            res.status(200).json({ task: task[0] })
+        }
     } catch(error) {
         next(error.sqlMessage)
     }
@@ -41,7 +45,7 @@ export const deleteTaskById = async (req, res, next) => {
         const id = req.params.id
         const [task, _] = await Task.deleteById(id)
 
-        res.status(200).json({ message: "Task deleted successfully" })
+        res.status(200).json({ id, message: "Task deleted successfully" })
     } catch(error) {
         next(error.sqlMessage)
     }
