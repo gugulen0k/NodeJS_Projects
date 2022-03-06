@@ -33,7 +33,7 @@ export const getTaskById = async (req, res, next) => {
         if (task[0].length === 0) {
             res.status(200).json({ message: `There is no task by id '${id}'` })
         } else {
-            res.status(200).json({ task: task[0] })
+            res.status(200).json({ task: task[0][0] })
         }
     } catch(error) {
         next(error.sqlMessage)
