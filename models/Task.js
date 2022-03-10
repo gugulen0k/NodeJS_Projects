@@ -31,16 +31,28 @@ class Task {
     }
 
     static findAll() {
-        const sqlQuery = 'SELECT * FROM todos ORDER BY created_at DESC';
+        const sqlQuery = 'SELECT * FROM todos ORDER BY completed ASC, created_at DESC';
         return db.execute(sqlQuery)
     }
 
-    static findById(id) {
+    static findById( id ) {
         const sqlQuery = 'CALL FindById( ? )';
         return db.execute(sqlQuery, [ id ])
     }
 
-    static deleteById(id) {
+    static updateById( id, name, completed ) {
+        console.log(id, name, completed === "true" ? 1 : 0)
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        const updatedAt = `${ year }-${ month <= 9 ? `0${month}` : month }-${ day <= 9 ? `0${day}` : day }`;
+
+        const sqlQuery = 'CALL UpdateById( ?, ?, ?, ? )';
+        return db.execute(sqlQuery, [ id, name, completed === "true" ? 1 : 0, updatedAt ])
+    }
+
+    static deleteById( id ) {
         const sqlQuery = 'CALL DeleteById( ? )';
         return db.execute(sqlQuery, [ id ])
     }

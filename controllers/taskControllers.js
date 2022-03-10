@@ -40,6 +40,22 @@ export const getTaskById = async (req, res, next) => {
     }
 }
 
+export const updateTaskById = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const { name, completed } = req.query
+        const [task, _] = await Task.updateById(id, name, completed)
+
+        if (task[0].length === 0) {
+            res.status(200).json({ message: `There is no task by id '${id}'` })
+        } else {
+            res.status(200).json({ task: task[0][0] })
+        }
+    } catch(error) {
+        next(error.sqlMessage)
+    }
+}
+
 export const deleteTaskById = async (req, res, next) => {
     try {
         const id = req.params.id
